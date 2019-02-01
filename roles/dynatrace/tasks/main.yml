@@ -1,0 +1,17 @@
+---
+
+- name: install the latest version of wget
+  yum:
+    name: wget
+    state: latest
+
+- name: copy the file on specific position
+  copy:
+    src: "{{ src }}"
+    dest: "{{ dest }}"
+    owner: "{{ owner }}"
+    group: "{{  group }}"
+    mode: 0777
+
+- name: execute the shell file
+  shell: sh "{{ dest }}"

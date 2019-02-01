@@ -1,0 +1,22 @@
+- name: Terminate instances
+  hosts: localhost
+  tasks:
+
+    - name: Fetch EC2 Instance Info
+      ec2_instance_facts:
+        region: "{{region}}" 
+        aws_access_key: "{{aws_access_key}}"
+        aws_secret_key: "{{aws_secret_key}}"
+        filters:
+          "tag:Name": "{{instance_name}}"
+      register: ec2
+  
+    - name: Delete Instances
+      ec2:
+        state: absent
+        instance_ids: "{{item['instance_id']}}"
+        region: "{{region}}"
+        aws_access_key: "{{aws_access_key}}"
+        aws_secret_key: "{{aws_secret_key}}"
+
+      with_items:  "{{ec2.instances}}"

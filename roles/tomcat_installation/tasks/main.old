@@ -1,0 +1,49 @@
+---
+# tasks file for tomcat_installation
+
+
+- name: Create tomcat group
+  shell: "sudo groupadd tomcat"
+
+- name: Create tomcat user
+  shell: "sudo useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat"
+
+
+- name: Install Java
+  shell: "sudo yum install java-1.7.0-openjdk-devel -y"
+
+- name: Install Wget
+  shell: "sudo yum install wget -y"
+
+
+- name: Download Tomcat
+  shell: "cd ~ && wget https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz"
+
+
+- name: Extract Tomcat 
+  shell: "sudo mkdir /opt/tomcat && sudo tar xvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1"
+
+- shell: "cd /opt/tomcat && sudo chgrp -R tomcat /opt/tomcat && sudo chmod -R g+r conf && sudo chmod g+x conf && sudo chown -R tomcat webapps/ work/ temp/ logs/"
+
+
+#- name: Copy tomcat configuration file
+#  copy:
+#    src: tomcat.service
+#    dest: /etc/systemd/system/tomcat.service
+#  become: true
+
+#- name: reload systemd 
+#  shell: "sudo systemctl daemon-reload"
+
+- name: Start tomcat Service
+  service:
+    name: tomcat
+    state: started
+    enabled: yes
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo printf "create table users( username varchar PRIMARY KEY, password varchar, firstname varchar, lastname varchar, ,email varchar, address varchar, phone INTEGER(10));" > createdb.sql
+
+sudo psql -U postgres -d compose -f createdb.sql
+

@@ -1,0 +1,68 @@
+---
+# tasks file for linux_postgres_db_creation
+
+
+- name: Stop Postgresql Service
+  command: "sudo systemctl stop postgresql"
+  register: Output
+
+- debug: var=Output
+
+- command: whoami
+  become_user: postgres
+  register: opt
+  
+- debug: var=opt
+ 
+- replace:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    regexp: 'peer'
+    replace: 'trust'
+    backup: yes
+  become_user: postgres
+
+- name: Ensure the PostgreSQL service is running
+  command: sudo systemctl start postgresql 
+
+- name: creation of database
+  become_user: postgres
+  command:     whoami
+  register:    whoami
+
+- debug: msg="{{whoami.stdout}}"
+
+- name: creation of db
+  postgresql_db:
+    name: compose
+
+- name: Create postgres user for my app
+  become: yes
+  become_user: postgres
+  postgresql_user:
+      name: "root"
+      password: "root"
+
+- name: Ensure we have access from the new user
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+      db: compose
+      role: root
+      objs: ALL_IN_SCHEMA
+      privs: SELECT,INSERT,UPDATE,DELETE
+
+- name: Copy shellscript
+  become_user: root
+  template:
+    src: db.j2
+    dest: "/home/ec2-user/db.sh"
+    owner: root
+    group: root
+    mode: 'u=rwx,go=rx'
+
+- name: execute the shell script
+  command: sudo sh /home/ec2-user/db.sh
+  
+
+
+

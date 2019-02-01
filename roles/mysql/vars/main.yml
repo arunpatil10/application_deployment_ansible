@@ -1,0 +1,4 @@
+---
+# vars file for mysql
+
+root_db_password: Password123

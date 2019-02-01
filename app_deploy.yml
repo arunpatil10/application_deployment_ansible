@@ -1,0 +1,29 @@
+#playbook for creating infra for ec2 instance in this will create vpc ,subnet,igw, route table and ec2 instance by calling role aws-infra.
+
+- name: Create AWS Instance
+  hosts: localhost
+  gather_facts: false
+  vars:
+    instance_name: Ansible_instance
+  roles:
+  - aws-infra
+
+
+- name: Install Tomcat
+  hosts: NewServer
+  gather_facts: false
+  become: yes
+  become_user: ec2-user
+  roles:
+    - linux_postgres_db_installation
+    - linux_postgres_db_cretion
+    - tomcat_installation
+
+- name: Install Dynatrace
+  hosts: NewServer
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  roles:
+  - dynatrace
+

@@ -1,0 +1,39 @@
+---
+
+– name: Download MySQL Community Repo
+  shell: "cd /tmp && wget http://repo.mysql.com/mysql-community-release-el7-7.noarch.rpm"
+  become_user: root
+
+
+– name: Install MySQL Community Repo
+  command: /usr/bin/rpm -ivh /tmp/mysql-community-release-el7-7.noarch.rpm
+  become_user: root
+
+– name: Install MySQL Server
+  yum: name=mysql-server state=present
+  become_user: root
+
+– name: Install MySQL-python, this is required for the task remove anonymous user
+  yum: name=MySQL-python state=present
+  become_user: root
+
+– name: Start MySQL Server and enable it
+  service: name=mysqld state=started enabled=yes
+  become_user: root
+
+– name: Remove Test database if it exist.
+  mysql_db: name=test state=absent
+  become_user: root
+
+– name: Remove All Anonymous User Accounts
+  mysql_user: name=” host_all=yes state=absent
+  become_user: root
+
+– name: Change root password
+  mysql_user: name=root host={{item}} password={{root_db_password}}
+  with_items:
+    – “{{ansible_hostname}}”
+    – 127.0.0.1
+    – ::1
+    – localhost
+  become_user: root

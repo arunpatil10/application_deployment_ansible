@@ -1,0 +1,37 @@
+---
+
+- name: Install Java
+  yum:
+   name: java
+   state: present
+  become_user: root
+
+- name: Install tomcat
+  yum:
+   name: "{{item}}"
+   state: present
+  with_items:
+    - tomcat
+    - tomcat-webapps
+    - tomcat-admin-webapps
+  become_user: root
+
+- name: Configure tomcat user
+  file:
+    src: tomcat-users.xml
+    dest: /usr/share/tomcat/conf/tomcat-users.xml
+  become_user: root
+
+- name: start tomcat service
+  service:
+   name: tomcat
+   state: started
+   enabled: yes
+  become_user: root
+
+
+- name: Copy WebApp File
+  copy: 
+   src: Compose.war
+   dest: /usr/share/tomcat/webapps/Compose.war
+  become_user: root
