@@ -8,8 +8,8 @@
     dest: /root/JavaSpringProject
     clone: yes
 
-- name: Copy war file
-  copy:
-   src: /root/JavaSpringProject/Compose.war
-   dest: /root/application_deployment_ansible/roles/tomcat_installation/files/Compose.war
+#- name: Copy war file
+#  copy:
+#   src: /root/JavaSpringProject/Compose.war
+#   dest: /root/application_deployment_ansible/roles/tomcat_installation/files/Compose.war
   
