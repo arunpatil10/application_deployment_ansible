@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo printf "create table users( username varchar PRIMARY KEY, password varchar, firstname varchar, lastname varchar, ,email varchar, address varchar, phone INTEGER(10));" > createdb.sql
+sudo printf "CREATE USER root WITH PASSWORD 'root'; GRANT ALL PRIVILEGES ON compose to root; CREATE TABLE users( username varchar PRIMARY KEY, password varchar, firstname varchar, lastname varchar, email varchar, address varchar, phone INTEGER);" > createdb.sql
+
 
 sudo psql -U postgres -d compose -f createdb.sql
-

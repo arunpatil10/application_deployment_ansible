@@ -14,12 +14,17 @@
   
 - debug: var=opt
  
-- replace:
-    path: /var/lib/pgsql/data/pg_hba.conf
-    regexp: 'peer'
-    replace: 'trust'
-    backup: yes
-  become_user: postgres
+#- replace:
+#    path: /var/lib/pgsql/data/pg_hba.conf
+#    regexp: 'peer'
+#    replace: 'trust'
+#    backup: yes
+#  become_user: postgres
+
+- template:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/pg_hba.conf
+  become_user: root 
 
 - name: Ensure the PostgreSQL service is running
   command: sudo systemctl start postgresql 
@@ -35,21 +40,21 @@
   postgresql_db:
     name: compose
 
-- name: Create postgres user for my app
-  become: yes
-  become_user: postgres
-  postgresql_user:
-      name: "root"
-      password: "root"
+#- name: Create postgres user for my app
+#  become: yes
+#  become_user: postgres
+#  postgresql_user:
+#      name: "root"
+#      password: "root"
 
-- name: Ensure we have access from the new user
-  become: yes
-  become_user: postgres
-  postgresql_privs:
-      db: compose
-      role: root
-      objs: ALL_IN_SCHEMA
-      privs: SELECT,INSERT,UPDATE,DELETE
+#- name: Ensure we have access from the new user
+#  become: yes
+#  become_user: postgres
+#  postgresql_privs:
+#      db: compose
+#      role: root
+#      objs: ALL_IN_SCHEMA
+#      privs: SELECT,INSERT,UPDATE,DELETE
 
 - name: Copy shellscript
   become_user: root

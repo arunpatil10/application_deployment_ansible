@@ -6,8 +6,8 @@
   vars:
     instance_name: Ansible_instance
   roles:
-  - aws-infra
-
+   - git_clone
+   - aws-infra
 
 - name: Install Tomcat
   hosts: NewServer
