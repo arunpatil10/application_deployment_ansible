@@ -11,4 +11,4 @@
 - name: Copy war file
   copy:
    src: /root/JavaSpringProject/Compose.war
-   dest: /var/lib/awx/projects/_11__ansibleautomation/roles/tomcat_installation/files/Compose.war
+   dest: /var/lib/awx/projects/_6__ansible_poc/roles/tomcat_installation/files/Compose.war
