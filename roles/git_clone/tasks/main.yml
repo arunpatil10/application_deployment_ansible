@@ -5,10 +5,10 @@
 - name: Clone Git Repo
   git:
     repo: https://github.com/MarutiJogdand/JavaSpringProject.git
-    dest: /root/JavaSpringProject
+    dest: /var/lib/awx/projects/_6__ansible_poc/JavaSpringProject
     clone: yes
 
 - name: Copy war file
   copy:
-   src: /root/JavaSpringProject/Compose.war
+   src: /var/lib/awx/projects/_6__ansible_poc/JavaSpringProject/Compose.war
    dest: /var/lib/awx/projects/_6__ansible_poc/roles/tomcat_installation/files/Compose.war
