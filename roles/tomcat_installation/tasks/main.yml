@@ -35,3 +35,9 @@
    src: Compose.war
    dest: /usr/share/tomcat/webapps/Compose.war
   become_user: root
+  
+- name: Copy War file to WebApp Folder
+  copy: 
+   src: FetchUsers.war
+   dest: /usr/share/tomcat/webapps/FetchUsers.war
+  become_user: root
