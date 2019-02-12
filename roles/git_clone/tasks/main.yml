@@ -12,3 +12,8 @@
   copy:
    src: /var/lib/awx/projects/_6__ansible_poc/JavaSpringProject/Compose.war
    dest: /var/lib/awx/projects/_6__ansible_poc/roles/tomcat_installation/files/Compose.war
+   
+- name: Copy war file
+  copy:
+   src: /var/lib/awx/projects/_6__ansible_poc/JavaSpringProject/FetchUsers.war
+   dest: /var/lib/awx/projects/_6__ansible_poc/roles/tomcat_installation/files/FetchUsers.war
